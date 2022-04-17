@@ -110,11 +110,8 @@ public class DegenerescenceGraph{
 
         while (ctn_zero!=nb_V){
             for (int v = 0; v < nb_V; v++) {
-                //System.out.println("indice dans allDegre = " +v);
                 if (allDegree.elementAt(v) <= k && allDegree.elementAt(v)>0){
-                    //System.out.println("ok");
                     for (int w : adjacent[v]){
-                        //System.out.println("Adjacent = " +w);
                         if (allDegree.elementAt(w)>0){
                             allDegree.set(w, allDegree.elementAt(w)-1);
                             allDegree.set(v, allDegree.elementAt(v)-1);
@@ -128,7 +125,6 @@ public class DegenerescenceGraph{
                         }
                     }
                 }
-                //StdOut.println(allDegree);
             }
             if (!retry) {   // des sommets ont été supprimé de nouveau sommet peuvent avoir un degré <= k
                 k++;

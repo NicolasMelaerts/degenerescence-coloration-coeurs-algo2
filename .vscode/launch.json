@@ -6,47 +6,12 @@
     "configurations": [
         {
             "type": "java",
-            "name": "Launch CouleurGraph",
-            "request": "launch",
-            "mainClass": "project.CouleurGraph",
-            "projectName": "ProjetAlgo2_17094ff3",
-            "args": "./src/graphEnonce.txt"
-        },
-        {
-            "type": "java",
             "name": "Launch DegenerescenceGraph",
             "request": "launch",
             "mainClass": "project.DegenerescenceGraph",
             "projectName": "ProjetAlgo2_17094ff3",
-            "args": "./src/mediumG.txt"
-        },
-        {
-            "type": "java",
-            "name": "Launch Current File",
-            "request": "launch",
-            "mainClass": "${file}"
-        },
-        {
-            "type": "java",
-            "name": "Launch App",
-            "request": "launch",
-            "mainClass": "entrainementJava.App",
-            "projectName": "ProjetAlgo2_17094ff3"
-        },
-        {
-            "type": "java",
-            "name": "Launch GraphClient",
-            "request": "launch",
-            "mainClass": "entrainementJava.GraphClient",
-            "projectName": "ProjetAlgo2_17094ff3",
-            "args": "./src/tinyG.txt"
-        },
-        {
-            "type": "java",
-            "name": "Launch MainApp",
-            "request": "launch",
-            "mainClass": "entrainementJava.MainApp",
-            "projectName": "ProjetAlgo2_17094ff3"
+            "args": "./src/facebook_combined.txt"
         }
-    ]
+    ],
+
 }
