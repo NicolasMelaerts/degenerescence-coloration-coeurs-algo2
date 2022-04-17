@@ -1,9 +1,11 @@
 package project;
 
-import edu.princeton.cs.algs4.*;
-
-import java.util.NoSuchElementException;
 import java.util.Vector;
+
+import edu.princeton.cs.algs4.Graph;
+import edu.princeton.cs.algs4.In;
+import edu.princeton.cs.algs4.Stack;
+import edu.princeton.cs.algs4.StdOut;
 
 /*
 
@@ -95,6 +97,50 @@ public class DegenerescenceGraph{
         return k;
     }
 
+    public int degenerate2(){
+        int k = 1;
+        boolean retry = false;
+
+        Vector<Integer> allDegree = new Vector(nb_V);
+        for (int v = 0; v < nb_V; v++) {
+            allDegree.add(deg(v));
+        }
+
+        int ctn_zero = 0;
+
+        while (ctn_zero!=nb_V){
+            for (int v = 0; v < nb_V; v++) {
+                //System.out.println("indice dans allDegre = " +v);
+                if (allDegree.elementAt(v) <= k && allDegree.elementAt(v)>0){
+                    //System.out.println("ok");
+                    for (int w : adjacent[v]){
+                        //System.out.println("Adjacent = " +w);
+                        if (allDegree.elementAt(w)>0){
+                            allDegree.set(w, allDegree.elementAt(w)-1);
+                            allDegree.set(v, allDegree.elementAt(v)-1);
+                            if (allDegree.elementAt(w) == 0){
+                                ctn_zero++;
+                            }
+                            if (allDegree.elementAt(v) == 0){
+                                ctn_zero++;
+                            }
+                            retry = true;
+                        }
+                    }
+                }
+                //StdOut.println(allDegree);
+            }
+            if (!retry) {   // des sommets ont été supprimé de nouveau sommet peuvent avoir un degré <= k
+                k++;
+            }
+            retry = false;
+
+        }
+        //StdOut.println(allDegree);
+        
+        return k;
+    }
+
     public String toString() {
         String NEWLINE = System.getProperty("line.separator");
         StringBuilder s = new StringBuilder();
@@ -123,12 +169,23 @@ public class DegenerescenceGraph{
         long tmps;
         int degen;
 
+
+        debut = System.currentTimeMillis();
+        degen = my_g.degenerate2();
+        tmps = System.currentTimeMillis()-debut;
+        
+        System.out.println("Dégénéréscence2 de " + degen);
+        System.out.println("Temps moyen dégénérescence graphe facebook = " + tmps + "millisec");
+
+        
         debut = System.currentTimeMillis();
         degen = my_g.degenerate();
         tmps = System.currentTimeMillis()-debut;
         
         System.out.println("Dégénéréscence de " + degen);
         System.out.println("Temps moyen dégénérescence graphe facebook = " + tmps + "millisec");
+        
+
 
     }
 
