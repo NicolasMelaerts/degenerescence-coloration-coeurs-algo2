@@ -10,7 +10,7 @@
             "request": "launch",
             "mainClass": "DegenerescenceGraph",
             "projectName": "ProjetAlgo2_5d8df356",
-            "args": [".\\src\\facebook_combined.txt"]
+            "args": [".\\src\\graphEnonce.txt"]
         }
     ],
 
