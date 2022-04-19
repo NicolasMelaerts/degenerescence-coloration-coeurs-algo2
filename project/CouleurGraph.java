@@ -1,5 +1,3 @@
-package project;
-
 import java.util.Vector;
 
 import edu.princeton.cs.algs4.*;
