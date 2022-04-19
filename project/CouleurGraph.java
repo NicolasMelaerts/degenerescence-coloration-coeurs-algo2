@@ -1,3 +1,4 @@
+package project;
 
 import java.util.Vector;
 
@@ -70,7 +71,7 @@ public class CouleurGraph {
 
     public void setSortVerticesColorPlaced(){
         for (int v = 0; v < nb_V; v++){
-            sortVerticesColorPlaced.add(-1);
+            sortVerticesColorPlaced.add(0);
         }
     }
 
@@ -88,23 +89,41 @@ public class CouleurGraph {
         StdOut.println(sortVertices);
         StdOut.println(sortVerticesColorPlaced);
         // colorie le sommet avec le plus grand degree
-        sortVertices.remove(0);
-        sortVerticesColorPlaced.remove(0);
-        sortVerticesColorPlaced.add(0, nb_color);
-        
+        sortVerticesColorPlaced.set(sortVertices.get(0), nb_color);
+        int colorPlaced = 1;
+        boolean ok = true;
 
         StdOut.println(sortVertices);
         StdOut.println(sortVerticesColorPlaced);
 
-        while (sortVertices.size()!=0){
-
+        while (colorPlaced != nb_V){
             for (int v = 0; v < nb_V; v++){
-                
+            
+                if (sortVerticesColorPlaced.get(sortVertices.get(v))==0){
+
+                    for (int w : adjacent[sortVertices.get(v)]){
+                        if (sortVerticesColorPlaced.get(w) == nb_color){
+                            System.out.println(sortVertices.get(v) + " = false");
+                            ok = false;
+                            break;
+                        }
+                    }
+                    if (ok){
+                        System.out.println(sortVertices.get(v) + " = true");
+                        sortVerticesColorPlaced.set(sortVertices.get(v), nb_color);
+                        colorPlaced++;
+                        
+                    }
+                    ok = true;
+                }
             }
-            break;
+            StdOut.println(sortVertices);
+            StdOut.println(sortVerticesColorPlaced);
+            System.out.println(colorPlaced);
+            nb_color++;
         }
 
-        return nb_color;
+        return nb_color-1;
     }
 
     public static void main(String[] args) {
@@ -117,7 +136,7 @@ public class CouleurGraph {
 
         System.out.println(cg.maxDegree());
 
-        cg.coloration();
+        System.out.println(cg.coloration());
 
     }
 }
