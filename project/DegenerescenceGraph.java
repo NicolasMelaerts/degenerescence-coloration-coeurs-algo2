@@ -1,3 +1,5 @@
+package project;
+
 import java.util.Vector;
 
 import edu.princeton.cs.algs4.Graph;
@@ -18,7 +20,6 @@ public class DegenerescenceGraph{
     private int nb_V;
     private int nb_E;
     private Vector<Integer>[] adjacent;
-    private Vector<Integer> Vremoved = new Vector();
 
     public DegenerescenceGraph(Graph g){
 
@@ -42,32 +43,6 @@ public class DegenerescenceGraph{
         }
     }
 
-    public void removeVertice(int v){
-        for (int w : adjacent[v]) {     // pour chaque sommet relié au sommet v
-            for(int idx = 0; idx < adjacent[w].size(); idx++){  // pour trouver l'indice du sommet w dans adjacent[w]
-                if (adjacent[w].elementAt(idx) == v){
-                    // supprime l'arête
-                    adjacent[w].remove(idx);    
-                    nb_E--;
-                }
-            }
-        }
-        adjacent[v].clear();    // supprime toutes les arêtes de v
-        Vremoved.add(v);       
-    }
-
-    // cherche si value est dans vector 
-    public boolean check(Vector<Integer> vector, int value){
-        boolean in = false;
-        for(int i : vector){
-            if(i == value){
-                in = true;
-                break;
-            }
-        }
-        return in;
-    }
-
     // renvoie le degré du sommet v
     public int deg(int v){
         return adjacent[v].size();
@@ -76,27 +51,6 @@ public class DegenerescenceGraph{
     // renvoie la k-dégénération du graph
     public int degenerate(){
         int k = 1;
-        boolean retry = false;  // on enlève les sommets de degrè k jusque quand il n'y a plus de sommet de degré k
-        while (nb_E != 0){  // tant qu'il reste des arêtes
-            for (int v = 0; v < nb_V; v++) {    // parcour tous les sommets du graphes 
-                if (!check(Vremoved, v)) {  // sommet déjà supprimé
-                    if (deg(v) <= k) {
-                        removeVertice(v);   // retire le sommet car <= k
-                        retry = true;
-                    }
-                }
-            }
-
-            if (!retry) {   // des sommets ont été supprimé de nouveau sommet peuvent avoir un degré <= k
-                k++;
-            }
-            retry = false;
-        }
-        return k;
-    }
-
-    public int degenerate2(){
-        int k = 1;
         boolean retry = false;
 
         Vector<Integer> allDegree = new Vector(nb_V);
@@ -104,21 +58,16 @@ public class DegenerescenceGraph{
             allDegree.add(deg(v));
         }
 
-        int ctn_zero = 0;
+        int edgeRemoved = 0;
 
-        while (ctn_zero!=nb_V){
+        while (edgeRemoved!=nb_E){
             for (int v = 0; v < nb_V; v++) {
                 if (allDegree.elementAt(v) <= k && allDegree.elementAt(v)>0){
                     for (int w : adjacent[v]){
                         if (allDegree.elementAt(w)>0){
                             allDegree.set(w, allDegree.elementAt(w)-1);
                             allDegree.set(v, allDegree.elementAt(v)-1);
-                            if (allDegree.elementAt(w) == 0){
-                                ctn_zero++;
-                            }
-                            if (allDegree.elementAt(v) == 0){
-                                ctn_zero++;
-                            }
+                            edgeRemoved++;
                             retry = true;
                         }
                     }
@@ -130,8 +79,6 @@ public class DegenerescenceGraph{
             retry = false;
 
         }
-        //StdOut.println(allDegree);
-        
         return k;
     }
 
@@ -158,29 +105,17 @@ public class DegenerescenceGraph{
 
         DegenerescenceGraph my_g = new DegenerescenceGraph(g);
 
-
         long debut;
         long tmps;
         int degen;
 
-
-        debut = System.currentTimeMillis();
-        degen = my_g.degenerate2();
-        tmps = System.currentTimeMillis()-debut;
-        
-        System.out.println("Dégénéréscence2 de " + degen);
-        System.out.println("Temps moyen dégénérescence graphe facebook = " + tmps + "millisec");
-
-        
         debut = System.currentTimeMillis();
         degen = my_g.degenerate();
         tmps = System.currentTimeMillis()-debut;
         
         System.out.println("Dégénéréscence de " + degen);
-        System.out.println("Temps moyen dégénérescence graphe facebook = " + tmps + "millisec");
+        System.out.println("Temps moyen dégénérescence graphe = " + tmps + "millisec");
         
-
-
     }
 
 

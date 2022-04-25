@@ -1,3 +1,5 @@
+package project;
+
 /*
 
 Du coup l'idée c'est de reprendre le même algorithme que l'exercice 1...
@@ -65,76 +67,13 @@ public class CoeurGraph{
         return nb_V;
     }
 
-    public void removeVertice(int v){
-        for (int w : adjacent[v]) {     // pour chaque sommet relié au sommet v
-            for(int idx = 0; idx < adjacent[w].size(); idx++){  // pour trouver l'indice du sommet w dans adjacent[w]
-                if (adjacent[w].elementAt(idx) == v){
-                    // supprime l'arête
-                    adjacent[w].remove(idx);    
-                    nb_E--;
-                }
-            }
-        }
-        adjacent[v].clear();    // supprime toutes les arêtes de v
-    }
-
-    // cherche si value est dans vector 
-    public boolean check(Vector<Integer> vector, int value){
-        boolean in = false;
-        for(int i : vector){
-            if(i == value){
-                in = true;
-                break;
-            }
-        }
-        return in;
-    }
 
     // renvoie le degré du sommet v
     public int deg(int v){
         return adjacent[v].size();
     }
 
-    // renvoie la k-dégénération du graphe
-    public int degenerate(){
-        int k = 1;
-        boolean retry = false;
 
-        Vector<Integer> allDegree = new Vector(nb_V);
-        for (int v = 0; v < nb_V; v++) {
-            allDegree.add(deg(v));
-        }
-
-        int ctn_zero = 0;
-
-        while (ctn_zero!=nb_V){
-            for (int v = 0; v < nb_V; v++) {
-                if (allDegree.elementAt(v) <= k && allDegree.elementAt(v)>0){
-                    for (int w : adjacent[v]){
-                        if (allDegree.elementAt(w)>0){
-                            allDegree.set(w, allDegree.elementAt(w)-1);
-                            allDegree.set(v, allDegree.elementAt(v)-1);
-                            if (allDegree.elementAt(w) == 0){
-                                ctn_zero++;
-                            }
-                            if (allDegree.elementAt(v) == 0){
-                                ctn_zero++;
-                            }
-                            retry = true;
-                        }
-                    }
-                }
-            }
-            if (!retry) {   // des sommets ont été supprimé de nouveau sommet peuvent avoir un degré <= k
-                k++;
-            }
-            retry = false;
-
-        }
-        //StdOut.println(allDegree);
-        
-        return k;
-    }
 
     // renvoie la profondeur d'un sommet 
     public int c(int sommet){
@@ -178,9 +117,7 @@ public class CoeurGraph{
             }
             retry = false;
 
-        }
-        //StdOut.println(allDegree);
-      
+        }        
         return k;
     }
 

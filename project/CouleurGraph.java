@@ -1,3 +1,5 @@
+package project;
+
 import java.util.Vector;
 
 import edu.princeton.cs.algs4.*;
@@ -57,7 +59,7 @@ public class CouleurGraph {
         return max;
     }
 
-    public void setSortVertices(){        
+    public void setSortVertices(){   
         for (int i = maxDegree(); i>0; i--){
             for (int v = 0; v < nb_V; v++){
                 if (my_g.degree(v) == i){
@@ -65,6 +67,11 @@ public class CouleurGraph {
                 }
             }
         }
+        /*
+        for (int v = 0; v < nb_V; v++){
+            sortVertices.add(v);   
+        }
+        */
     }
 
     public void setSortVerticesColorPlaced(){
@@ -73,16 +80,10 @@ public class CouleurGraph {
         }
     }
 
-    public Vector<Integer> getSortVertices(){
-        setSortVertices();
-        return sortVertices;
-    }
 
     public int coloration(){
         setSortVertices();
         setSortVerticesColorPlaced();
-
-        Vector<Integer> verticeToColored = new Vector();
 
         StdOut.println(sortVertices);
         StdOut.println(sortVerticesColorPlaced);
@@ -91,12 +92,12 @@ public class CouleurGraph {
         int colorPlaced = 1;
         boolean ok = true;
 
+
         StdOut.println(sortVertices);
         StdOut.println(sortVerticesColorPlaced);
 
         while (colorPlaced != nb_V){
             for (int v = 0; v < nb_V; v++){
-            
                 if (sortVerticesColorPlaced.get(sortVertices.get(v))==0){
 
                     for (int w : adjacent[sortVertices.get(v)]){
@@ -128,7 +129,7 @@ public class CouleurGraph {
         In in = new In(args[0]);
         Graph g = new Graph(in);
 
-        StdOut.println(g);
+        //StdOut.println(g);
 
         CouleurGraph cg = new CouleurGraph(g);
 
