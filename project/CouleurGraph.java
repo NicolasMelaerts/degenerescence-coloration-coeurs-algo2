@@ -37,18 +37,6 @@ public class CouleurGraph {
         }
     }
 
-    // cherche si value est dans vector 
-    public boolean check(Vector<Integer> vector, int value){
-        boolean in = false;
-        for(int i : vector){
-            if(i == value){
-                in = true;
-                break;
-            }
-        }
-        return in;
-    }
-
     public int maxDegree(){
         int max = 0;
         for (int v = 0; v < nb_V; v++){

@@ -1,42 +1,11 @@
 {
-    // Use IntelliSense to learn about possible attributes.
-    // Hover to view descriptions of existing attributes.
-    // For more information, visit: https://go.microsoft.com/fwlink/?linkid=830387
-    "version": "0.2.0",
     "configurations": [
         {
             "type": "java",
-            "name": "Launch DegenerescenceGraph",
+            "name": "Launch My_Graph",
             "request": "launch",
-            "mainClass": "project.DegenerescenceGraph",
-            "projectName": "ProjetAlgo2_17094ff3",
-            "args": "./src/RO_edges.txt"
-        },
-        {
-            "type": "java",
-            "name": "Launch MyGraph",
-            "request": "launch",
-            "mainClass": "MyGraph",
-            "projectName": "ProjetAlgo2_17094ff3",
-            "args": "./src/facebook_combined.txt"
-        },
-        {
-            "type": "java",
-            "name": "Launch CouleurGraph",
-            "request": "launch",
-            "mainClass": "project.CouleurGraph",
-            "projectName": "ProjetAlgo2_17094ff3",
-            "args": "./src/facebook_combined.txt"
-        },
-        {
-            "type": "java",
-            "name": "Launch CoeurGraph",
-            "request": "launch",
-            "mainClass": "project.CoeurGraph",
-            "projectName": "ProjetAlgo2_17094ff3",
-            "args": "./src/graphEnonce.txt"
+            "mainClass": "My_Graph",
+            "projectName": "ProjetAlgo2_17094ff3"
         }
-    ],
-    
-
+    ]
 }

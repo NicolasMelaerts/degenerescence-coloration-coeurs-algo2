@@ -101,7 +101,7 @@ public class DegenerescenceGraph{
         In in = new In(args[0]);
         Graph g = new Graph(in);
 
-        StdOut.println(g);
+        //StdOut.println(g);
 
         DegenerescenceGraph my_g = new DegenerescenceGraph(g);
 
