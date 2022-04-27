@@ -5,6 +5,13 @@
             "name": "Launch My_Graph",
             "request": "launch",
             "mainClass": "My_Graph",
+            "projectName": "ProjetAlgo2_5d8df356"
+        },
+        {
+            "type": "java",
+            "name": "Launch My_Graph",
+            "request": "launch",
+            "mainClass": "My_Graph",
             "projectName": "ProjetAlgo2_17094ff3"
         }
     ]

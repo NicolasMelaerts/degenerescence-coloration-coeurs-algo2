@@ -156,51 +156,56 @@ public class My_Graph {
         return nb_color-1;
     }
 
-        // renvoie la profondeur d'un sommet 
-        public int c(int sommet){
-            int k = 1;
-            boolean retry = false;
-    
-            Vector<Integer> allDegree = new Vector(nb_V);
+    // renvoie la profondeur d'un sommet 
+    public int c(int sommet){
+        int k = 1;
+        boolean done = false;
+        boolean retry = false;
+
+        Vector<Integer> allDegree = new Vector(nb_V);
+        for (int v = 0; v < nb_V; v++) {
+            allDegree.add(deg(v));
+        }
+
+        int removedEdges = 0;
+
+        while (removedEdges!=nb_E && !done){
             for (int v = 0; v < nb_V; v++) {
-                allDegree.add(deg(v));
-            }
-    
-            int ctn_zero = 0;
-    
-            while (ctn_zero!=nb_V){
-                for (int v = 0; v < nb_V; v++) {
-                    if (allDegree.elementAt(v) <= k && allDegree.elementAt(v)>0){
-                        for (int w : adjacent[v]){
-                            if (allDegree.elementAt(w)>0){
-                                allDegree.set(w, allDegree.elementAt(w)-1);
-                                allDegree.set(v, allDegree.elementAt(v)-1);
-    
-                                if (allDegree.elementAt(w) == 0){
-                                    ctn_zero++;
-                                    if (w == sommet){
-                                        return k;
-                                    }
+                if (allDegree.elementAt(v) <= k && allDegree.elementAt(v)>0){
+                    for (int w : adjacent[v]){
+                        if (allDegree.elementAt(w)>0){
+                            allDegree.set(w, allDegree.elementAt(w)-1);
+                            allDegree.set(v, allDegree.elementAt(v)-1);
+
+                            if (allDegree.elementAt(w) == 0){
+                                if (w == sommet){
+                                    done = true;
+                                    break;
                                 }
-                                if (allDegree.elementAt(v) == 0){
-                                    ctn_zero++;
-                                    if (v == sommet){
-                                        return k;
-                                    }
-                                }
-                                retry = true;
                             }
+                            if (allDegree.elementAt(v) == 0){
+                                if (v == sommet){
+                                    done = true;
+                                    break;
+                                }
+                            }
+                            removedEdges++;
+                            retry = true;
                         }
                     }
+                    if (done){
+                        break;
+                    }
                 }
-                if (!retry) {   // des sommets ont été supprimé de nouveau sommet peuvent avoir un degré <= k
-                    k++;
-                }
-                retry = false;
-    
-            }        
-            return k;
-        }
+            }
+            if (!retry && !done) {   // des sommets ont été supprimé de nouveau sommet peuvent avoir un degré <= k
+                k++;
+            }
+            retry = false;
+
+        }        
+        return k;
+    }
 
 
     public String toString() {
@@ -264,7 +269,7 @@ public class My_Graph {
     }
 
     public static void main(String[] args) {
-        String fichier = "./src/facebook_combined.txt";
+        String fichier = "./src/graphEnonce.txt";
 
         In in = new In(fichier);
         Graph g = new Graph(in);
