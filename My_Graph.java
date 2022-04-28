@@ -1,4 +1,5 @@
 import java.util.Vector;
+import java.util.*;
 
 import edu.princeton.cs.algs4.Graph;
 import edu.princeton.cs.algs4.In;
@@ -83,6 +84,41 @@ public class My_Graph {
         return k;
     }
 
+    public int degenerate2(){
+        int k = 1;
+        boolean retry = false;
+
+        int [] allDegree = new int[nb_V];
+
+        for (int v = 0; v < nb_V; v++) {
+            allDegree[v] = deg(v);
+        }
+
+        int edgeRemoved = 0;
+
+        while (edgeRemoved!=nb_E){
+            for (int v = 0; v < nb_V; v++) {
+                if (allDegree[v] <= k && allDegree[v]>0){
+                    for (int w : adjacent[v]){
+                        if (allDegree[w]>0){
+                            allDegree[w] = allDegree[w]-1;
+                            allDegree[v] = allDegree[v]-1;
+                            edgeRemoved++;
+                            retry = true;
+                        }
+                    }
+                }
+            }
+            if (!retry) {   // des sommets ont été supprimé de nouveau sommet peuvent avoir un degré <= k
+                k++;
+            }
+            retry = false;
+
+        }
+
+        return k;
+    }
+
     // renvoie la couleur qui sera attribué au sommet en fonction des couleurs de ses sommets voisins
     public int color(int nb_color, Vector<Integer> allColorNeightboor){
         for (int i = 1; i <= nb_color; i++){
@@ -157,6 +193,68 @@ public class My_Graph {
         return nb_color;
     }
 
+    public int coloration2(){
+        int edgeRemoved = 0;
+        int k = 1;
+        int nb_color = 1;
+        int lastVertice = -1;
+        int newc;
+
+        boolean retry = false;
+
+        int [] allColor = new int[nb_V];
+        int [] allDegree = new int[nb_V];
+
+        Vector<Integer> allColorNeightboor = new Vector();
+
+        for (int v = 0; v < nb_V; v++) {
+            allDegree[v] = deg(v);
+            allColor[v] = 0;
+        }
+
+        while (edgeRemoved!=nb_E){
+            for (int v = 0; v < nb_V; v++) {
+                if (allDegree[v] <= k && allDegree[v]>0){
+                    for (int w : adjacent[v]){
+                        if (allDegree[w]>0){
+                            allDegree[w] = allDegree[w]-1;
+                            allDegree[v] = allDegree[v]-1;
+                            edgeRemoved++;
+                            retry = true;
+                            lastVertice = w;
+                        }
+                        if (allColor[w] != 0){
+                            allColorNeightboor.add(allColor[w]);
+                        }
+                    }
+                    newc = color(nb_color, allColorNeightboor);
+                    allColor[v] = newc;
+                    if (newc>nb_color){
+                        nb_color = newc;
+                    }
+                    allColorNeightboor.clear();
+                }
+            }
+            if (!retry) {   // des sommets ont été supprimé de nouveau sommet peuvent avoir un degré <= k
+                k++;
+            }
+            retry = false;
+        }
+        // placer la dernière couleur
+        for (int w : adjacent[lastVertice]){
+            if (allColor[w] != 0){
+                allColorNeightboor.add(allColor[w]);
+            }
+        }
+        newc = color(nb_color, allColorNeightboor);
+        allColor[lastVertice] = newc;
+        if (newc>nb_color){
+            nb_color = newc;
+        }
+
+        return nb_color;
+    }
+
     // renvoie la profondeur d'un sommet 
     public int c(int sommet){
         int k = 1;
@@ -208,6 +306,57 @@ public class My_Graph {
         return k;
     }
 
+    public int c2(int sommet){
+        int k = 1;
+        boolean done = false;
+        boolean retry = false;
+
+        int [] allDegree = new int[nb_V];
+        for (int v = 0; v < nb_V; v++) {
+            allDegree[v] = deg(v);
+        }
+
+        int removedEdges = 0;
+
+        while (removedEdges!=nb_E && !done){
+            for (int v = 0; v < nb_V; v++) {
+                if (allDegree[v] <= k && allDegree[v]>0){
+                    for (int w : adjacent[v]){
+                        if (allDegree[w]>0){
+                            allDegree[w] = allDegree[w]-1;
+                            allDegree[v] = allDegree[v]-1;
+
+                            if (allDegree[w] == 0){
+                                if (w == sommet){
+                                    done = true;
+                                    break;
+                                }
+                            }
+                            if (allDegree[v] == 0){
+                                if (v == sommet){
+                                    done = true;
+                                    break;
+                                }
+                            }
+                            removedEdges++;
+                            retry = true;
+                        }
+                    }
+                    if (done){
+                        break;
+                    }
+                }
+            }
+            if (!retry && !done) {   // des sommets ont été supprimé de nouveau sommet peuvent avoir un degré <= k
+                k++;
+            }
+            retry = false;
+
+        }        
+        return k;
+    }
+
+
     public void testDegen(){
         long debut;
         long tmps;
@@ -218,6 +367,14 @@ public class My_Graph {
         tmps = System.currentTimeMillis()-debut;
         
         System.out.println("Dégénéréscence de " + degen);
+        System.out.println("Temps moyen dégénérescence graphe = " + tmps + "millisec\n");
+
+
+        debut = System.currentTimeMillis();
+        degen = degenerate2();
+        tmps = System.currentTimeMillis()-debut;
+        
+        System.out.println("Dégénéréscence 2 de " + degen);
         System.out.println("Temps moyen dégénérescence graphe = " + tmps + "millisec\n");
     }
 
@@ -232,29 +389,40 @@ public class My_Graph {
 
         System.out.println("Coloration de " + color);
         System.out.println("Temps moyen coloration graphe = " + tmps + "millisec\n");
+
+        debut = System.currentTimeMillis();
+        color = coloration2();
+        tmps = System.currentTimeMillis()-debut;
+
+        System.out.println("Coloration 2 de " + color);
+        System.out.println("Temps moyen coloration graphe = " + tmps + "millisec\n");
     }
 
     public void testCore(){
         long debut;
         long tmps;
 
-        int not_to_long = nb_V;
-
-        if (not_to_long > 100){
-            not_to_long = 10;
-        }
 
         debut = System.currentTimeMillis();
-        for (int v=0; v < not_to_long; v++){
+        for (int v=0; v < getV(); v++){
             StdOut.print("c(" + v + ") : " + c(v) + ", ");
         }
         tmps = System.currentTimeMillis()-debut;
         
         System.out.println("\nTemps moyen profondeur graphe = " + tmps + "millisec\n");
+
+
+        debut = System.currentTimeMillis();
+        for (int v=0; v < getV(); v++){
+            StdOut.print("c2(" + v + ") : " + c2(v) + ", ");
+        }
+        tmps = System.currentTimeMillis()-debut;
+        
+        System.out.println("\nTemps moyen profondeur 2 graphe = " + tmps + "millisec\n");
     }
 
     public static void main(String[] args) {
-        String fichier = "./src/facebook_combined.txt";
+        String fichier = "./src/graphEnonce.txt";
 
         In in = new In(fichier);
         Graph g = new Graph(in);
