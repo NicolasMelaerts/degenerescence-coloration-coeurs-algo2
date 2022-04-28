@@ -17,9 +17,6 @@ public class My_Graph {
     private int nb_E;
     private Vector<Integer>[] adjacent;
 
-    private Graph my_g;
-
-
     public My_Graph(Graph g){
 
         this.nb_V = g.V();
@@ -52,7 +49,6 @@ public class My_Graph {
     public int deg(int v){
         return adjacent[v].size();
     }
-
 
     // renvoie la k-dégénération du graph
     public int degenerate(){
@@ -88,72 +84,78 @@ public class My_Graph {
         return k;
     }
 
-    public int maxDegree(){
-        int max = 0;
-        for (int v = 0; v < nb_V; v++){
-            if (my_g.degree(v)>max){
-                max = my_g.degree(v);
+    // renvoie la couleur qui sera attribué au sommet en fonction des couleurs de ses sommets voisins
+    public int color(int nb_color, Vector<Integer> allColorNeightboor){
+        for (int i = 1; i <= nb_color; i++){
+            if (!allColorNeightboor.contains(i)){
+                return i;
             }
         }
-        return max;
+        return nb_color+1;
     }
 
-    public void setSortVertices(Vector<Integer> sortVertices){   
-        for (int i = maxDegree(); i>0; i--){
-            for (int v = 0; v < nb_V; v++){
-                if (my_g.degree(v) == i){
-                    sortVertices.add(v);
-                }
-            }
-        }
-        /*
-        for (int v = 0; v < nb_V; v++){
-            sortVertices.add(v);   
-        }
-        */
-    }
-
-    public void setSortVerticesColorPlaced(Vector<Integer> sortVerticesColorPlaced){
-        for (int v = 0; v < nb_V; v++){
-            sortVerticesColorPlaced.add(0);
-        }
-    }
-
+    // renvoie le nombre de couleur minimal coloriant le graphe suivant le même principe que la dégénérescence
     public int coloration(){
+        int edgeRemoved = 0;
+        int k = 1;
         int nb_color = 1;
-        Vector<Integer> sortVertices = new Vector();    // trier les sommet par degré du plus grand au plus petit
-        Vector<Integer> sortVerticesColorPlaced = new Vector();
+        int lastVertice = -1;
+        int newc;
 
-        setSortVertices(sortVertices);
-        setSortVerticesColorPlaced(sortVerticesColorPlaced);
+        boolean retry = false;
 
-        // colorie le sommet avec le plus grand degree
-        sortVerticesColorPlaced.set(sortVertices.get(0), nb_color);
-        int colorPlaced = 1;
-        boolean ok = true;
+        Vector<Integer> allColor = new Vector(nb_V);
+        Vector<Integer> allColorNeightboor = new Vector();
 
-        while (colorPlaced != nb_V){
-            for (int v = 0; v < nb_V; v++){
-                if (sortVerticesColorPlaced.get(sortVertices.get(v))==0){
+        Vector<Integer> allDegree = new Vector(nb_V);
+        for (int v = 0; v < nb_V; v++) {
+            allDegree.add(deg(v));
+            allColor.add(0);
+        }
 
-                    for (int w : adjacent[sortVertices.get(v)]){
-                        if (sortVerticesColorPlaced.get(w) == nb_color){
-                            ok = false;
-                            break;
+        while (edgeRemoved!=nb_E){
+            for (int v = 0; v < nb_V; v++) {
+                if (allDegree.elementAt(v) <= k && allDegree.elementAt(v)>0){
+                    for (int w : adjacent[v]){
+                        if (allDegree.elementAt(w)>0){
+                            allDegree.set(w, allDegree.elementAt(w)-1);
+                            allDegree.set(v, allDegree.elementAt(v)-1);
+                            edgeRemoved++;
+                            retry = true;
+                            lastVertice = w;
+                        }
+                        if (allColor.elementAt(w) != 0){
+                            allColorNeightboor.add(allColor.elementAt(w));
                         }
                     }
-                    if (ok){
-                        sortVerticesColorPlaced.set(sortVertices.get(v), nb_color);
-                        colorPlaced++;
-                        
+                    newc = color(nb_color, allColorNeightboor);
+                    allColor.set(v, newc);
+                    if (newc>nb_color){
+                        nb_color = newc;
                     }
-                    ok = true;
+                    allColorNeightboor.clear();
                 }
             }
-            nb_color++;
+            if (!retry) {   // des sommets ont été supprimé de nouveau sommet peuvent avoir un degré <= k
+                k++;
+            }
+            retry = false;
+
         }
 
-        return nb_color-1;
+        // placer la dernière couleur
+        for (int w : adjacent[lastVertice]){
+            if (allColor.elementAt(w) != 0){
+                allColorNeightboor.add(allColor.elementAt(w));
+            }
+        }
+        newc = color(nb_color, allColorNeightboor);
+        allColor.set(lastVertice, newc);
+        if (newc>nb_color){
+            nb_color = newc;
+        }
+
+        return nb_color;
     }
 
     // renvoie la profondeur d'un sommet 
@@ -207,22 +209,6 @@ public class My_Graph {
         return k;
     }
 
-
-    public String toString() {
-        String NEWLINE = System.getProperty("line.separator");
-        StringBuilder s = new StringBuilder();
-        s.append(nb_V + " vertices, " + nb_E + " edges " + NEWLINE);
-        for (int v = 0; v < nb_V; v++) {
-            s.append(v + ": ");
-            for (int w : adjacent[v]) {
-                s.append(w + " ");
-            }
-            s.append(NEWLINE);
-        }
-        return s.toString();
-    }
-
-
     public void testDegen(){
         long debut;
         long tmps;
@@ -256,7 +242,7 @@ public class My_Graph {
         int not_to_long = nb_V;
 
         if (not_to_long > 100){
-            not_to_long = 100;
+            not_to_long = 10;
         }
 
         debut = System.currentTimeMillis();
@@ -269,7 +255,7 @@ public class My_Graph {
     }
 
     public static void main(String[] args) {
-        String fichier = "./src/graphEnonce.txt";
+        String fichier = "./src/facebook_combined.txt";
 
         In in = new In(fichier);
         Graph g = new Graph(in);
@@ -278,7 +264,6 @@ public class My_Graph {
         my_g.testDegen();
         my_g.testColor();
         my_g.testCore();
-
     }
     
 }
