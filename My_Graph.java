@@ -21,7 +21,6 @@ public class My_Graph {
 
         this.nb_V = g.V();
         this.nb_E = g.E();
-        this.my_g = g;
 
         adjacent = (Vector<Integer>[]) new Vector[nb_V];
         for (int v = 0; v < nb_V; v++) {
