@@ -178,7 +178,7 @@ public class My_Graph {
                             allDegree[w] = allDegree[w]-1;
                             allDegree[v] = allDegree[v]-1;
 
-                            if ((allDegree[w] == 0 && w == sommet) || (allDegree[v] == 0 && v == sommet)){
+                            if ((sommet == v && allDegree[v] == 0) || (sommet == w && allDegree[w] == 0)){
                                 done = true;
                                 break;
                             }
