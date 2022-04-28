@@ -178,18 +178,11 @@ public class My_Graph {
                             allDegree[w] = allDegree[w]-1;
                             allDegree[v] = allDegree[v]-1;
 
-                            if (allDegree[w] == 0){
-                                if (w == sommet){
-                                    done = true;
-                                    break;
-                                }
+                            if ((allDegree[w] == 0 && w == sommet) || (allDegree[v] == 0 && v == sommet)){
+                                done = true;
+                                break;
                             }
-                            if (allDegree[v] == 0){
-                                if (v == sommet){
-                                    done = true;
-                                    break;
-                                }
-                            }
+                            
                             removedEdges++;
                             retry = true;
                         }
