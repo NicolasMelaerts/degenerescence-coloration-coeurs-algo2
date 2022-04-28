@@ -8,8 +8,8 @@ import edu.princeton.cs.algs4.StdOut;
 
 /*
 
-Le constructeur My_Graph(Graph g) et les méthodes deg(int v) et toString() ont été reprise 
-dans algs4.jar (http://algs4.cs.princeton.edu) et ont été réalisé par Robert Sedgewick and Kevin Wayne
+Le constructeur My_Graph(Graph g) et les méthodes deg(int v) et toString() ont été repris 
+dans algs4.jar (http://algs4.cs.princeton.edu) et ont été réalisés par Robert Sedgewick and Kevin Wayne
 
 */
 
@@ -40,7 +40,7 @@ public class My_Graph {
         }
     }
 
-    // renvoie le nombre de sommet du graph
+    // renvoie le nombre de sommets du graphe
     public int getV(){
         return nb_V;
     }
@@ -50,32 +50,32 @@ public class My_Graph {
         return adjacent[v].size();
     }
 
-    // renvoie la k-dégénération du graph
+    // renvoie la k-dégénération du graphe
     public int degenerate(){
         int k = 1;
         boolean retry = false;
-        int edgeRemoved = 0;
+        int removedEdges = 0;
 
-        int [] allDegree = new int[nb_V];
+        int [] allDegrees = new int[nb_V];
 
         for (int v = 0; v < nb_V; v++) {
-            allDegree[v] = deg(v);
+            allDegrees[v] = deg(v);
         }
 
-        while (edgeRemoved!=nb_E){
+        while (removedEdges!=nb_E){
             for (int v = 0; v < nb_V; v++) {
-                if (allDegree[v] <= k && allDegree[v]>0){
+                if (allDegrees[v] <= k && allDegrees[v]>0){
                     for (int w : adjacent[v]){
-                        if (allDegree[w]>0){
-                            allDegree[w] = allDegree[w]-1;
-                            allDegree[v] = allDegree[v]-1;
-                            edgeRemoved++;
+                        if (allDegrees[w]>0){
+                            allDegrees[w] = allDegrees[w]-1;
+                            allDegrees[v] = allDegrees[v]-1;
+                            removedEdges++;
                             retry = true;
                         }
                     }
                 }
             }
-            if (!retry) {   // des sommets ont été supprimé de nouveau sommet peuvent avoir un degré <= k
+            if (!retry) {   // des sommets ont été supprimés, de nouveaux sommets peuvent avoir un degré <= k
                 k++;
             }
             retry = false;
@@ -85,19 +85,19 @@ public class My_Graph {
         return k;
     }
 
-    // renvoie la couleur qui sera attribué au sommet en fonction des couleurs de ses sommets voisins
-    public int color(int nb_color, Vector<Integer> allColorNeightboor){
+    // renvoie la couleur qui sera attribuée au sommet en fonction des couleurs de ses sommets voisins
+    public int color(int nb_color, Vector<Integer> allColorsNeighbors){
         for (int i = 1; i <= nb_color; i++){
-            if (!allColorNeightboor.contains(i)){
+            if (!allColorsNeighbors.contains(i)){
                 return i;
             }
         }
         return nb_color+1;
     }
 
-    // renvoie le nombre de couleur minimal coloriant le graphe suivant le même principe que la dégénérescence
+    // renvoie le nombre minimal de couleurs colorant le graphe suivant le même principe que la dégénérescence
     public int coloration(){
-        int edgeRemoved = 0;
+        int removedEdges = 0;
         int k = 1;
         int nb_color = 1;
         int lastVertice = -1;
@@ -105,52 +105,52 @@ public class My_Graph {
 
         boolean retry = false;
 
-        int [] allColor = new int[nb_V];
-        int [] allDegree = new int[nb_V];
+        int [] allColors = new int[nb_V];
+        int [] allDegrees = new int[nb_V];
 
         Vector<Integer> allColorNeightboor = new Vector();
 
         for (int v = 0; v < nb_V; v++) {
-            allDegree[v] = deg(v);
-            allColor[v] = 0;
+            allDegrees[v] = deg(v);
+            allColors[v] = 0;
         }
 
-        while (edgeRemoved!=nb_E){
+        while (removedEdges!=nb_E){
             for (int v = 0; v < nb_V; v++) {
-                if (allDegree[v] <= k && allDegree[v]>0){
+                if (allDegrees[v] <= k && allDegrees[v]>0){
                     for (int w : adjacent[v]){
-                        if (allDegree[w]>0){
-                            allDegree[w] = allDegree[w]-1;
-                            allDegree[v] = allDegree[v]-1;
-                            edgeRemoved++;
+                        if (allDegrees[w]>0){
+                            allDegrees[w] = allDegrees[w]-1;
+                            allDegrees[v] = allDegrees[v]-1;
+                            removedEdges++;
                             retry = true;
                             lastVertice = w;
                         }
-                        if (allColor[w] != 0){
-                            allColorNeightboor.add(allColor[w]);
+                        if (allColors[w] != 0){
+                            allColorNeightboor.add(allColors[w]);
                         }
                     }
                     newc = color(nb_color, allColorNeightboor);
-                    allColor[v] = newc;
+                    allColors[v] = newc;
                     if (newc>nb_color){
                         nb_color = newc;
                     }
                     allColorNeightboor.clear();
                 }
             }
-            if (!retry) {   // des sommets ont été supprimé de nouveau sommet peuvent avoir un degré <= k
+            if (!retry) {   // des sommets ont été supprimés, de nouveaux sommets peuvent avoir un degré <= k
                 k++;
             }
             retry = false;
         }
         // placer la dernière couleur
         for (int w : adjacent[lastVertice]){
-            if (allColor[w] != 0){
-                allColorNeightboor.add(allColor[w]);
+            if (allColors[w] != 0){
+                allColorNeightboor.add(allColors[w]);
             }
         }
         newc = color(nb_color, allColorNeightboor);
-        allColor[lastVertice] = newc;
+        allColors[lastVertice] = newc;
         if (newc>nb_color){
             nb_color = newc;
         }
@@ -159,26 +159,26 @@ public class My_Graph {
     }
 
     // renvoie la profondeur d'un sommet 
-    public int c(int sommet){
+    public int c(int vertice){
         int k = 1;
         boolean done = false;
         boolean retry = false;
         int removedEdges = 0;
 
-        int [] allDegree = new int[nb_V];
+        int [] allDegrees = new int[nb_V];
         for (int v = 0; v < nb_V; v++) {
-            allDegree[v] = deg(v);
+            allDegrees[v] = deg(v);
         }
 
         while (removedEdges!=nb_E && !done){
             for (int v = 0; v < nb_V; v++) {
-                if (allDegree[v] <= k && allDegree[v]>0){
+                if (allDegrees[v] <= k && allDegrees[v]>0){
                     for (int w : adjacent[v]){
-                        if (allDegree[w]>0){
-                            allDegree[w] = allDegree[w]-1;
-                            allDegree[v] = allDegree[v]-1;
+                        if (allDegrees[w]>0){
+                            allDegrees[w] = allDegrees[w]-1;
+                            allDegrees[v] = allDegrees[v]-1;
 
-                            if ((sommet == v && allDegree[v] == 0) || (sommet == w && allDegree[w] == 0)){
+                            if ((vertice == v && allDegrees[v] == 0) || (vertice == w && allDegrees[w] == 0)){
                                 done = true;
                                 break;
                             }
@@ -192,7 +192,7 @@ public class My_Graph {
                     }
                 }
             }
-            if (!retry && !done) {   // des sommets ont été supprimé de nouveau sommet peuvent avoir un degré <= k
+            if (!retry && !done) {   // des sommets ont été supprimés de nouveau sommet peuvent avoir un degré <= k
                 k++;
             }
             retry = false;
@@ -201,7 +201,7 @@ public class My_Graph {
         return k;
     }
 
-    public void profondeur(){
+    public void depth(){
         for (int v = 0; v < getV(); v++){
             c(v);
         }
@@ -239,7 +239,7 @@ public class My_Graph {
 
         
         debut = System.currentTimeMillis();
-        profondeur();
+        depth();
         tmps = System.currentTimeMillis()-debut;
         
         System.out.println("\nTemps moyen profondeur graphe = " + tmps + "millisec\n");
