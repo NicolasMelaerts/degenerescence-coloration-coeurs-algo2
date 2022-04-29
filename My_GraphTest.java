@@ -264,14 +264,15 @@ public class My_GraphTest {
 
     public static void main(String[] args) {
 
-        In in = new In(args[0]);
+        String fichier = "./src/Gowalla_edges.txt";
+        In in = new In(fichier);
         Graph g = new Graph(in);
 
         My_GraphTest my_g = new My_GraphTest(g);
         my_g.testDegen();
         my_g.testColor();
         my_g.testCore();
-        my_g.imprDepth();
+        //my_g.imprDepth();
     }
     
 }

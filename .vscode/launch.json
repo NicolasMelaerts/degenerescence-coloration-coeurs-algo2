@@ -2,6 +2,13 @@
     "configurations": [
         {
             "type": "java",
+            "name": "Launch My_GraphTest",
+            "request": "launch",
+            "mainClass": "My_GraphTest",
+            "projectName": "ProjetAlgo2_17094ff3"
+        },
+        {
+            "type": "java",
             "name": "Launch My_Graph",
             "request": "launch",
             "mainClass": "My_Graph",

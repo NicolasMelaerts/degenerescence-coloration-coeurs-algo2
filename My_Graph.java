@@ -211,7 +211,7 @@ public class My_Graph {
         return k;
     }
 
-    // renvoie la profondeur de chaque sommet
+    // renvoie un tableau contenant la profondeur de chaque sommet
     public int [] depth(){
         int [] allDepth = new int[nb_V];
         for (int v = 0; v < getV(); v++){
