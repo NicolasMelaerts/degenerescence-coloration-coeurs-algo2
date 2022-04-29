@@ -5,7 +5,7 @@ Cours   : Algorithmique 2
 Section : Sciences Informatiques ULB
 
 But du programme : classe My_Graph qui, à partir d'un Graph, peut donner sa dégénérescence, 
-                   une coloration poddible pour le graphe et peut aussi donner un
+                   une coloration possible pour le graphe et peut aussi donner un
                    tableau contenant la profondeur de chaque sommet.
 */
 
