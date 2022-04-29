@@ -9,8 +9,9 @@ Ce fichier est composé de cette manière: première ligne, le nombre de sommets
 le nombre d'arètes du graphe, et pour les lignes suivantes ce sera les liens entre les différents sommets
 sous la forme 1 2, donc le sommet 1 à une arête le reliant au sommet 2.
 
-Pour compiler : javac -cp ./src/algs4.jar: My_Graph.java 
-Pour exécuter : java -cp ./src/algs4.jar: My_Graph ./src/testGraph.txt
+Sur Ubuntu 20.04 :
+    Pour compiler : javac -cp ./src/algs4.jar: My_Graph.java 
+    Pour exécuter : java -cp ./src/algs4.jar: My_Graph ./src/graphEnonce.txt
 
 Lors de l'exécution, le script imprimera la dégénérescence, ensuite la coloration, et pour finir la
 profondeur de chaque sommet du graphe. 
