@@ -1,3 +1,15 @@
+/*
+Auteur  : Nicolas Melaerts et Manu Mathey-Prévot
+Date    : Avril 2021
+Cours   : Algorithmique 2
+Section : Sciences Informatiques ULB
+
+But du programme : classe My_Graph qui a partir d'un Graph, peut donner sa dégénérescence, 
+                   son nombre minimal de couleurs colorant le graphe et peut aussi donner un
+                   tableau contenant la profondeur de chaque sommet.
+*/
+
+
 import java.util.Vector;
 
 import edu.princeton.cs.algs4.Graph;
@@ -6,7 +18,7 @@ import edu.princeton.cs.algs4.Stack;
 
 /*
 
-Le constructeur My_Graph(Graph g) et les méthodes deg(int v) et toString() ont été repris 
+Le constructeur My_Graph(Graph g) et la méthodes deg(int v) ont été repris 
 dans algs4.jar (http://algs4.cs.princeton.edu) et ont été réalisés par Robert Sedgewick and Kevin Wayne
 
 */
