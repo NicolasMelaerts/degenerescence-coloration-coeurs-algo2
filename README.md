@@ -15,3 +15,5 @@ Sur Ubuntu 20.04 :
 
 Lors de l'exécution, le script imprimera la dégénérescence, ensuite la coloration, et pour finir la
 profondeur de chaque sommet du graphe. 
+
+Les graphes utilisés dans le cadre de la question 4 sont disponible dans le dossier src.
