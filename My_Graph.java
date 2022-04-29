@@ -18,7 +18,7 @@ import edu.princeton.cs.algs4.Stack;
 
 /*
 
-Le constructeur My_Graph(Graph g) et la méthodes deg(int v) ont été repris 
+Le constructeur My_Graph(Graph g) et la méthode deg(int v) ont été repris 
 dans algs4.jar (http://algs4.cs.princeton.edu) et ont été réalisés par Robert Sedgewick and Kevin Wayne
 
 */
