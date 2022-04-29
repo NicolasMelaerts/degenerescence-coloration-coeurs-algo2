@@ -4,8 +4,8 @@ Date    : Avril 2021
 Cours   : Algorithmique 2
 Section : Sciences Informatiques ULB
 
-But du programme : classe My_Graph qui a partir d'un Graph, peut donner sa dégénérescence, 
-                   son nombre minimal de couleurs colorant le graphe et peut aussi donner un
+But du programme : classe My_Graph qui, à partir d'un Graph, peut donner sa dégénérescence, 
+                   une coloration poddible pour le graphe et peut aussi donner un
                    tableau contenant la profondeur de chaque sommet.
 */
 
