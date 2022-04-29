@@ -1,10 +1,8 @@
 import java.util.Vector;
-import java.util.*;
 
 import edu.princeton.cs.algs4.Graph;
 import edu.princeton.cs.algs4.In;
 import edu.princeton.cs.algs4.Stack;
-import edu.princeton.cs.algs4.StdOut;
 
 /*
 
@@ -55,7 +53,6 @@ public class My_Graph {
         int k = 1;
         boolean retry = false;
         int removedEdges = 0;
-
         int [] allDegrees = new int[nb_V];
 
         for (int v = 0; v < nb_V; v++) {
@@ -81,7 +78,6 @@ public class My_Graph {
             retry = false;
 
         }
-
         return k;
     }
 
@@ -245,16 +241,23 @@ public class My_Graph {
         System.out.println("\nTemps moyen profondeur graphe = " + tmps + "millisec\n");
     }
 
-    public static void main(String[] args) {
-        String fichier = "./src/facebook_combined.txt";
+    public void imprCore(){
+        for (int v = 0; v < getV(); v++){
+            System.out.println("c("+ v+ ") = " + c(v));
+        }
+    }
 
-        In in = new In(fichier);
+    public static void main(String[] args) {
+        String fichier = "./src/tinyG.txt";
+
+        In in = new In(args[0]);
         Graph g = new Graph(in);
 
         My_Graph my_g = new My_Graph(g);
         my_g.testDegen();
         my_g.testColor();
         my_g.testCore();
+        my_g.imprCore();
     }
     
 }
